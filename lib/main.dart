@@ -19,12 +19,42 @@ class _MyAppState extends State<MyApp> {
   RegRow steelRow = RegRow('steel', 0xffc4a484);
   RegRow titaniumRow = RegRow('titanium', 0xff949494);
   RegRow trRow = RegRow('crown', 0xffe3e1d7);
-  bool _prodSelected = false;
+  bool prodSelected = false;
 
   produce() {
     setState(() {
       goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator());
     });
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Did you chose production phase?"),
+          actions: <Widget>[
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return CheckboxListTile(
+                  title: Text("Yes"),
+                  value: prodSelected,
+                  autofocus: false,
+                  activeColor: Colors.green,
+                  checkColor: Colors.white,
+                  selected: prodSelected,
+                  onChanged: (bool? value){
+                    setState(() {
+                      prodSelected = value!;
+                    });
+                  },
+                );
+              }
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -77,34 +107,7 @@ class _MyAppState extends State<MyApp> {
                           primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return StatefulBuilder(
-                                builder: (BuildContext context, StateSetter setState) {
-                                  return AlertDialog(
-                                      title: Text("Did you chose production phase?"),
-                                      actions: <Widget>[
-                                        CheckboxListTile(
-                                          title: Text("Yes"),
-                                          value: _prodSelected,
-                                          autofocus: false,
-                                          activeColor: Colors.green,
-                                          checkColor: Colors.white,
-                                          selected: _prodSelected,
-                                          onChanged: (value){
-                                            setState(() {
-                                              _prodSelected = value!;
-                                            });
-                                          },
-                                        ),
-                                      ]
-                                  );
-                                },
-                              );
-                            },
-                          );                        },
+                        onPressed: () => _showDialog(context),
                         child: const Text('Produce!'),
                       ),
                     ],
