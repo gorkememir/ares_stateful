@@ -2,7 +2,7 @@ import 'common/resource_row_stateful.dart';
 import 'package:flutter/material.dart';
 import 'common/reg_row.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _MyAppState extends State<MyApp> {
   RegRow steelRow = RegRow('steel', 0xffc4a484);
   RegRow titaniumRow = RegRow('titanium', 0xff949494);
   RegRow trRow = RegRow('crown', 0xffe3e1d7);
+  bool _prodSelected = false;
 
   produce() {
     setState(() {
@@ -76,7 +77,34 @@ class _MyAppState extends State<MyApp> {
                           primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: produce,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                builder: (BuildContext context, StateSetter setState) {
+                                  return AlertDialog(
+                                      title: Text("Did you chose production phase?"),
+                                      actions: <Widget>[
+                                        CheckboxListTile(
+                                          title: Text("Yes"),
+                                          value: _prodSelected,
+                                          autofocus: false,
+                                          activeColor: Colors.green,
+                                          checkColor: Colors.white,
+                                          selected: _prodSelected,
+                                          onChanged: (value){
+                                            setState(() {
+                                              _prodSelected = value!;
+                                            });
+                                          },
+                                        ),
+                                      ]
+                                  );
+                                },
+                              );
+                            },
+                          );                        },
                         child: const Text('Produce!'),
                       ),
                     ],
