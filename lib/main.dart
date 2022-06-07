@@ -22,22 +22,40 @@ class _MyAppState extends State<MyApp> {
   bool prodSelected = false;
 
   produce() {
-    setState(() {
-      goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator());
-    });
+    if (prodSelected) {
+      setState(() {
+        goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator() + 4);
+      });
+    }
+    else {
+      goldRow.increaseBy(goldRow.getIncome()+trRow.getIndicator());
+    }
   }
 
   void _showDialog(BuildContext context) {
+    prodSelected = false;
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        produce();
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () => Navigator.of(context).pop(),
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Did you chose production phase?"),
           actions: <Widget>[
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return CheckboxListTile(
-                  title: Text("Yes"),
+                  title: Text("I chose production phase"),
                   value: prodSelected,
                   autofocus: false,
                   activeColor: Colors.green,
@@ -50,6 +68,14 @@ class _MyAppState extends State<MyApp> {
                   },
                 );
               }
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                cancelButton,
+                okButton
+              ],
             )
           ],
         );

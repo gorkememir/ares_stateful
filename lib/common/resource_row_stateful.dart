@@ -66,12 +66,41 @@ class _ResRowState extends State<ResRow> {
   }
 
   _changeStockBy(int amount) {
-    widget.status == true ?
-    setState(() {
-      widget.stock.value += amount;
-    }) : setState(() {
-      widget.stock.value -= amount;
-    });
+    if(widget.status) {
+      setState(() {
+        widget.stock.value += amount;
+      });
+    }
+    else if (widget.stock.value - amount < 0) {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('Stock cannot be less than zero'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    else {
+      setState(() {
+        widget.stock.value -= amount;
+      });
+    }
   }
 
   @override
