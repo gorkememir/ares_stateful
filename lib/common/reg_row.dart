@@ -72,10 +72,10 @@ class _RegRowState extends State<RegRow> {
           children: [
             IconButton(
               icon: Image.asset('''assets/'''+widget.icon+'''.png'''''),
-              iconSize: 60,
+              iconSize: 50,
               onPressed: null,
             ),
-            Text(widget.indicator.toString(), textScaleFactor: 3),
+            Text(widget.indicator.toString(), textScaleFactor: 2),
             Column(
               children: [
 

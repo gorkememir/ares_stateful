@@ -9,6 +9,7 @@ class ResRow extends StatefulWidget {
   List<bool> isSelected = [true, false];
   late int colorCode;
   late Color c = Color(colorCode);
+  late double iconSize;
 
   increaseBy(int newVal) {
     stock.value += newVal;
@@ -18,7 +19,7 @@ class ResRow extends StatefulWidget {
     return income;
   }
 
-  ResRow(this.icon, this.colorCode, {Key? key}) : super(key: key);
+  ResRow(this.icon, this.colorCode, this.iconSize, {Key? key}) : super(key: key);
 
   @override
   State<ResRow> createState() => _ResRowState();
@@ -116,13 +117,11 @@ class _ResRowState extends State<ResRow> {
           color: widget.c
       ),
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: SizedBox(
-                height: 100,
-                width: 100,
+                height: 60,
+                width: 60,
                 child: IconButton(
                   icon: Image.asset('''assets/'''+widget.icon+'''.png'''''),
                   onPressed: null,
@@ -134,43 +133,43 @@ class _ResRowState extends State<ResRow> {
                 children: [
                   IconButton(
                     icon: Image.asset('assets/plus.png'),
-                    iconSize: 40,
+                    iconSize: widget.iconSize,
                     onPressed: _incrementIncome,
                   ),
                   IconButton(
                     icon: Image.asset('assets/minus.png'),
-                    iconSize: 40,
+                    iconSize: widget.iconSize,
                     onPressed: _decrementIncome,
                   ),
                 ],
               ),
             ),
-            Text(widget.income.toString(), textScaleFactor: 3),
+            Text(widget.income.toString(), textScaleFactor: 2),
             Expanded(
               child: IconButton(
                 icon: Image.asset('assets/bronze_cube.png'),
-                iconSize: 50,
+                iconSize: widget.iconSize,
                 onPressed: () => _changeStockBy(1),
               ),
             ),
             Expanded(
               child: IconButton(
                 icon: Image.asset('assets/silver_cube.png'),
-                iconSize: 50,
+                iconSize: widget.iconSize,
                 onPressed: () => _changeStockBy(5),
               ),
             ),
             Expanded(
               child: IconButton(
                 icon: Image.asset('assets/gold_cube.png'),
-                iconSize: 50,
+                iconSize: widget.iconSize,
                 onPressed: () => _changeStockBy(10),
               ),
             ),
             Expanded(
               child: ValueListenableBuilder(
                 builder: (context, value, _) {
-                  return Text('$value', textScaleFactor: 3);
+                  return Text('$value', textScaleFactor: 2);
                 },
                 valueListenable: widget.stock,
               ),
@@ -181,10 +180,10 @@ class _ResRowState extends State<ResRow> {
                 inactiveText: 'Spend',
                 activeColor: Colors.green,
                 inactiveColor: Colors.redAccent,
-                width: 105.0,
-                height: 60.0,
+                width: 125.0,
+                height: 50.0,
                 valueFontSize: 15.0,
-                toggleSize: 45.0,
+                toggleSize: 25.0,
                 value: widget.status,
                 borderRadius: 24.0,
                 padding: 5.0,
