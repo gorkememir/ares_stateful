@@ -78,7 +78,6 @@ class _RegRowState extends State<RegRow> {
             Text(widget.indicator.toString(), textScaleFactor: 2),
             Column(
               children: [
-
                 IconButton(
                   icon: Image.asset('assets/plus.png'),
                   iconSize: 20,

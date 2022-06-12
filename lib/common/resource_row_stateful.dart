@@ -27,14 +27,12 @@ class ResRow extends StatefulWidget {
 }
 
 class _ResRowState extends State<ResRow> {
-
-  void _incrementIncome() {
+  _incrementIncome() {
     setState(() {
       widget.income++;
     });
   }
-
-  Future<void> _decrementIncome() async {
+  _decrementIncome() {
     if(widget.income > 0) {
       setState(()
       {
@@ -66,7 +64,6 @@ class _ResRowState extends State<ResRow> {
       );
     }
   }
-
   _changeStockBy(int amount) {
     if(widget.status) {
       setState(() {
@@ -107,98 +104,110 @@ class _ResRowState extends State<ResRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(4),
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          shape: BoxShape.rectangle,
-          color: widget.c
-      ),
-      child: Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 60,
-                width: 60,
-                child: IconButton(
-                  icon: Image.asset('''assets/'''+widget.icon+'''.png'''''),
-                  onPressed: null,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Column(
+    return Expanded(
+      child: Container(
+          margin: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(0.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              shape: BoxShape.rectangle,
+              color: widget.c
+          ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            var parentHeight = constraints.maxHeight;
+            var parentWidth = constraints.maxWidth;
+            print(parentWidth);
+            print(parentHeight);
+            return Row(
                 children: [
-                  IconButton(
-                    icon: Image.asset('assets/plus.png'),
-                    iconSize: widget.iconSize,
-                    onPressed: _incrementIncome,
+                  Expanded(
+                    child: SizedBox(
+                      height: 60,
+                      width: 60,
+                      child: IconButton(
+                        icon: Image.asset(
+                            '''assets/''' + widget.icon + '''.png'''''),
+                        onPressed: null,
+                      ),
+                    ),
                   ),
-                  IconButton(
-                    icon: Image.asset('assets/minus.png'),
-                    iconSize: widget.iconSize,
-                    onPressed: _decrementIncome,
+                  Expanded(
+                    child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Image.asset('assets/plus.png'),
+                              iconSize: widget.iconSize,
+                              onPressed: _incrementIncome,
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/minus.png'),
+                              iconSize: widget.iconSize,
+                              onPressed: _decrementIncome,
+                            ),
+                          ],
+                        ),
                   ),
-                ],
-              ),
-            ),
-            AutoSizeText(widget.income.toString(),textScaleFactor: 2, maxLines: 1),
-            Expanded(
-              child: IconButton(
-                icon: Image.asset('assets/bronze_cube.png'),
-                iconSize: widget.iconSize,
-                onPressed: () => _changeStockBy(1),
-              ),
-            ),
-            Expanded(
-              child: IconButton(
-                icon: Image.asset('assets/silver_cube.png'),
-                iconSize: widget.iconSize,
-                onPressed: () => _changeStockBy(5),
-              ),
-            ),
-            Expanded(
-              child: IconButton(
-                icon: Image.asset('assets/gold_cube.png'),
-                iconSize: widget.iconSize,
-                onPressed: () => _changeStockBy(10),
-              ),
-            ),
-            Expanded(
-              child: ValueListenableBuilder(
-                builder: (context, value, _) {
-                  return AutoSizeText('$value', textScaleFactor: 2, maxLines: 1,);
-                },
-                valueListenable: widget.stock,
-              ),
-            ),
-            Expanded(
-              child: RotatedBox(
-                quarterTurns: 3,
-                child: FlutterSwitch(
-                  activeText: 'Earn',
-                  inactiveText: 'Spend',
-                  activeColor: Colors.green,
-                  inactiveColor: Colors.redAccent,
-                  width: 125.0,
-                  height: 40.0,
-                  valueFontSize: 15.0,
-                  toggleSize: 30.0,
-                  value: widget.status,
-                  borderRadius: 24.0,
-                  padding: 5.0,
-                  showOnOff: true,
-                  onToggle: (val) {
-                    setState(() {
-                      widget.status = val;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ]
-      ),
+                  AutoSizeText(
+                      widget.income.toString(), textScaleFactor: 2, maxLines: 1),
+                  Expanded(
+                    child: IconButton(
+                      icon: Image.asset('assets/bronze_cube.png'),
+                      iconSize: widget.iconSize,
+                      onPressed: () => _changeStockBy(1),
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      icon: Image.asset('assets/silver_cube.png'),
+                      iconSize: widget.iconSize,
+                      onPressed: () => _changeStockBy(5),
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      icon: Image.asset('assets/gold_cube.png'),
+                      iconSize: widget.iconSize,
+                      onPressed: () => _changeStockBy(10),
+                    ),
+                  ),
+                  Expanded(
+                    child: ValueListenableBuilder(
+                      builder: (context, value, _) {
+                        return AutoSizeText(
+                          '$value', textScaleFactor: 2, maxLines: 1,);
+                      },
+                      valueListenable: widget.stock,
+                    ),
+                  ),
+                  Expanded(
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: FlutterSwitch(
+                        activeText: 'E a r n',
+                        inactiveText: 'S p e n d',
+                        activeColor: Colors.green,
+                        inactiveColor: Colors.redAccent,
+                        width: 105.0,
+                        height: 40.0,
+                        valueFontSize: 15.0,
+                        toggleSize: 30.0,
+                        value: widget.status,
+                        borderRadius: 24.0,
+                        padding: 5.0,
+                        showOnOff: true,
+                        onToggle: (val) {
+                          setState(() {
+                            widget.status = val;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ]
+            );
+          }),
+          ),
     );
   }
 }

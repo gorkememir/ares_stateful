@@ -85,65 +85,65 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     trRow.setIndicator(5);
-    return MaterialApp(
-      home: Scaffold(
-          body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              print("max height?");
-              print(constraints.maxHeight);
-              return Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      goldRow,
-                      plantRow,
-                      heatRow,
-                      Row(
-                        children: [
-                          steelRow,
-                          titaniumRow,
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          cardRow,
-                          trRow,
-                        ],
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned.fill(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Colors.greenAccent,
-                                      Colors.lightGreen,
-                                      Colors.green,
-                                    ],
-                                  ),
-                                ),
-                              ),
+    return LayoutBuilder(builder: (context, constraints) {
+      var parentHeight = constraints.maxHeight;
+      var parentWidth = constraints.maxWidth;
+      print("main.dart width: "+parentWidth.toString());
+      print("main.dart height: "+parentHeight.toString());
+      return MaterialApp(
+        home: Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                goldRow,
+                plantRow,
+                heatRow,
+                Row(
+                  children: [
+                    steelRow,
+                    titaniumRow,
+                  ],
+                ),
+                Row(
+                  children: [
+                    cardRow,
+                    trRow,
+                  ],
+                ),
+                // produce button starts
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                Colors.greenAccent,
+                                Colors.lightGreen,
+                                Colors.green,
+                              ],
                             ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(30.0),
-                                primary: Colors.white,
-                                textStyle: const TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () => _showDialog(context),
-                              child: const Text('Produce!'),
-                            ),
-                          ],
+                          ),
                         ),
-                      ), //produceButton
-                    ]
-                );
-          }
-        )
-      ),
-    );
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(30.0),
+                          primary: Colors.white,
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () => _showDialog(context),
+                        child: const Text('Produce!'),
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            )
+        ),
+      );
+    });
   }
 }
