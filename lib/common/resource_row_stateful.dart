@@ -114,16 +114,12 @@ class _ResRowState extends State<ResRow> {
               color: widget.c
           ),
           child: LayoutBuilder(builder: (context, constraints) {
-            var parentHeight = constraints.maxHeight;
-            var parentWidth = constraints.maxWidth;
-            print(parentWidth);
-            print(parentHeight);
             return Row(
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 60,
-                      width: 60,
+                      height: 70,
+                      width: 70,
                       child: IconButton(
                         icon: Image.asset(
                             '''assets/''' + widget.icon + '''.png'''''),
@@ -135,21 +131,27 @@ class _ResRowState extends State<ResRow> {
                     child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                              icon: Image.asset('assets/plus.png'),
-                              iconSize: widget.iconSize,
-                              onPressed: _incrementIncome,
+                            Expanded(
+                              child: IconButton(
+                                icon: Image.asset('assets/plus.png'),
+                                onPressed: _incrementIncome,
+                              ),
                             ),
-                            IconButton(
-                              icon: Image.asset('assets/minus.png'),
-                              iconSize: widget.iconSize,
-                              onPressed: _decrementIncome,
+                            Expanded(
+                              child: IconButton(
+                                icon: Image.asset('assets/minus.png'),
+                                onPressed: _decrementIncome,
+                              ),
                             ),
                           ],
                         ),
                   ),
-                  AutoSizeText(
-                      widget.income.toString(), textScaleFactor: 2, maxLines: 1),
+                  Container(
+                    width: 50,
+                    alignment: Alignment.center,
+                    child: AutoSizeText(
+                        widget.income.toString(), textScaleFactor: 2, maxLines: 1),
+                  ),
                   Expanded(
                     child: IconButton(
                       icon: Image.asset('assets/bronze_cube.png'),
@@ -171,7 +173,9 @@ class _ResRowState extends State<ResRow> {
                       onPressed: () => _changeStockBy(10),
                     ),
                   ),
-                  Expanded(
+                  Container(
+                    alignment: Alignment.center,
+                    width: 50,
                     child: ValueListenableBuilder(
                       builder: (context, value, _) {
                         return AutoSizeText(

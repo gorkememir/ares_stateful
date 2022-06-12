@@ -38,6 +38,7 @@ dependencies:
   english_words: ^4.0.0
   flutter_switch: ^0.3.2
   auto_size_text: ^3.0.0
+  audioplayers: 1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'common/resource_row_stateful.dart';
 import 'package:flutter/material.dart';
 import 'common/reg_row.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -20,22 +22,34 @@ class _MyAppState extends State<MyApp> {
   RegRow titaniumRow = RegRow('titanium', 0xff949494);
   RegRow trRow = RegRow('crown', 0xffe3e1d7);
   bool prodSelected = false;
+  final player = AudioPlayer();
 
-  produce() {
+  produce() async {
     if (prodSelected) {
-      setState(() {
         goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator() + 4);
         plantRow.increaseBy(plantRow.getIncome());
         heatRow.increaseBy(heatRow.getIncome());
-      });
+        if (cardRow.getIndicator() > 0) {
+          await player.play(DeviceFileSource("assets/paper.mp3"));
+          await Future.delayed(const Duration(milliseconds: 1000));
+        }
     } else {
       goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator());
       plantRow.increaseBy(plantRow.getIncome());
       heatRow.increaseBy(heatRow.getIncome());
+      if (cardRow.getIndicator() > 0) {
+        await player.play(DeviceFileSource("assets/paper.mp3"));
+        await Future.delayed(const Duration(milliseconds: 1000));
+      }
     }
+    playMoney();
   }
 
-  void _showDialog(BuildContext context) {
+  playMoney() async {
+    player.play(DeviceFileSource("assets/money.mp3"));
+  }
+
+  _showDialog(BuildContext context) {
     prodSelected = false;
     Widget okButton = TextButton(
       child: Text("OK"),
@@ -88,56 +102,67 @@ class _MyAppState extends State<MyApp> {
     return LayoutBuilder(builder: (context, constraints) {
       var parentHeight = constraints.maxHeight;
       var parentWidth = constraints.maxWidth;
-      print("main.dart width: "+parentWidth.toString());
-      print("main.dart height: "+parentHeight.toString());
       return MaterialApp(
         home: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 0,
+            backgroundColor: Colors.white,
+          ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 goldRow,
                 plantRow,
                 heatRow,
-                Row(
-                  children: [
-                    steelRow,
-                    titaniumRow,
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      steelRow,
+                      titaniumRow,
+                    ],
+                  ),
                 ),
-                Row(
-                  children: [
-                    cardRow,
-                    trRow,
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      cardRow,
+                      trRow,
+                    ],
+                  ),
                 ),
                 // produce button starts
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: <Color>[
-                                Colors.greenAccent,
-                                Colors.lightGreen,
-                                Colors.green,
-                              ],
+                SizedBox(
+                  width: double.infinity,
+                  height: parentHeight/10,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: Container(
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: <Color>[
+                                  Colors.greenAccent,
+                                  Colors.lightGreen,
+                                  Colors.green,
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.all(30.0),
-                          primary: Colors.white,
-                          textStyle: const TextStyle(fontSize: 20),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(5.0),
+                            primary: Colors.white,
+                          ),
+                          onPressed: () => _showDialog(context),
+                          child: AutoSizeText('Produce!', textScaleFactor: 2,),
                         ),
-                        onPressed: () => _showDialog(context),
-                        child: const Text('Produce!'),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ]

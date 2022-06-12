@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 class RegRow extends StatefulWidget {
   final String icon;
@@ -61,37 +63,53 @@ class _RegRowState extends State<RegRow> {
     return Expanded(
       child: Container(
         margin: EdgeInsets.all(4),
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(0.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             shape: BoxShape.rectangle,
             color: widget.c
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Image.asset('''assets/'''+widget.icon+'''.png'''''),
-              iconSize: 40,
-              onPressed: null,
-            ),
-            Text(widget.indicator.toString(), textScaleFactor: 2),
-            Column(
+          ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                  icon: Image.asset('assets/plus.png'),
-                  iconSize: 20,
-                  onPressed: () => _changeBy(1),
+                Expanded(
+                  child: SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: IconButton(
+                      icon: Image.asset(
+                          '''assets/''' + widget.icon + '''.png'''''),
+                      onPressed: null,
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: Image.asset('assets/minus.png'),
-                  iconSize: 20,
-                  onPressed: () => _changeBy(-1),
+                AutoSizeText(
+                    widget.indicator.toString(), textScaleFactor: 2),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          icon: Image.asset('assets/plus.png'),
+                          iconSize: 30,
+                          onPressed: () => _changeBy(1),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          icon: Image.asset('assets/minus.png'),
+                          iconSize: 30,
+                          onPressed: () => _changeBy(-1),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-          ],
-        ),
+            );
+          }),
       ),
     );
   }
