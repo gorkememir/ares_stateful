@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ResRow extends StatefulWidget {
   final String icon;
@@ -106,8 +107,6 @@ class _ResRowState extends State<ResRow> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget goodJob = const Text('Good job!');
-
     return Container(
       margin: EdgeInsets.all(4),
       padding: const EdgeInsets.all(10.0),
@@ -144,7 +143,7 @@ class _ResRowState extends State<ResRow> {
                 ],
               ),
             ),
-            Text(widget.income.toString(), textScaleFactor: 2),
+            AutoSizeText(widget.income.toString(),textScaleFactor: 2, maxLines: 1),
             Expanded(
               child: IconButton(
                 icon: Image.asset('assets/bronze_cube.png'),
@@ -169,30 +168,33 @@ class _ResRowState extends State<ResRow> {
             Expanded(
               child: ValueListenableBuilder(
                 builder: (context, value, _) {
-                  return Text('$value', textScaleFactor: 2);
+                  return AutoSizeText('$value', textScaleFactor: 2, maxLines: 1,);
                 },
                 valueListenable: widget.stock,
               ),
             ),
             Expanded(
-              child: FlutterSwitch(
-                activeText: 'Earn',
-                inactiveText: 'Spend',
-                activeColor: Colors.green,
-                inactiveColor: Colors.redAccent,
-                width: 125.0,
-                height: 50.0,
-                valueFontSize: 15.0,
-                toggleSize: 25.0,
-                value: widget.status,
-                borderRadius: 24.0,
-                padding: 5.0,
-                showOnOff: true,
-                onToggle: (val) {
-                  setState(() {
-                    widget.status = val;
-                  });
-                },
+              child: RotatedBox(
+                quarterTurns: 3,
+                child: FlutterSwitch(
+                  activeText: 'Earn',
+                  inactiveText: 'Spend',
+                  activeColor: Colors.green,
+                  inactiveColor: Colors.redAccent,
+                  width: 125.0,
+                  height: 40.0,
+                  valueFontSize: 15.0,
+                  toggleSize: 30.0,
+                  value: widget.status,
+                  borderRadius: 24.0,
+                  padding: 5.0,
+                  showOnOff: true,
+                  onToggle: (val) {
+                    setState(() {
+                      widget.status = val;
+                    });
+                  },
+                ),
               ),
             ),
           ]

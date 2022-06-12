@@ -72,7 +72,7 @@ class _RegRowState extends State<RegRow> {
           children: [
             IconButton(
               icon: Image.asset('''assets/'''+widget.icon+'''.png'''''),
-              iconSize: 50,
+              iconSize: 40,
               onPressed: null,
             ),
             Text(widget.indicator.toString(), textScaleFactor: 2),
@@ -81,12 +81,12 @@ class _RegRowState extends State<RegRow> {
 
                 IconButton(
                   icon: Image.asset('assets/plus.png'),
-                  iconSize: 30,
+                  iconSize: 20,
                   onPressed: () => _changeBy(1),
                 ),
                 IconButton(
                   icon: Image.asset('assets/minus.png'),
-                  iconSize: 30,
+                  iconSize: 20,
                   onPressed: () => _changeBy(-1),
                 ),
               ],

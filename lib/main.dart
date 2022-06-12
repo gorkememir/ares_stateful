@@ -25,9 +25,13 @@ class _MyAppState extends State<MyApp> {
     if (prodSelected) {
       setState(() {
         goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator() + 4);
+        plantRow.increaseBy(plantRow.getIncome());
+        heatRow.increaseBy(heatRow.getIncome());
       });
     } else {
       goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator());
+      plantRow.increaseBy(plantRow.getIncome());
+      heatRow.increaseBy(heatRow.getIncome());
     }
   }
 
@@ -83,54 +87,63 @@ class _MyAppState extends State<MyApp> {
     trRow.setIndicator(5);
     return MaterialApp(
       home: Scaffold(
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-            goldRow,
-            plantRow,
-            heatRow,
-            Row(
-              children: [
-                steelRow,
-                titaniumRow,
-              ],
-            ),
-            Row(
-              children: [
-                cardRow,
-                trRow,
-              ],
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Colors.greenAccent,
-                            Colors.lightGreen,
-                            Colors.green,
+          body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              print("max height?");
+              print(constraints.maxHeight);
+              return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      goldRow,
+                      plantRow,
+                      heatRow,
+                      Row(
+                        children: [
+                          steelRow,
+                          titaniumRow,
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          cardRow,
+                          trRow,
+                        ],
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Colors.greenAccent,
+                                      Colors.lightGreen,
+                                      Colors.green,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(30.0),
+                                primary: Colors.white,
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () => _showDialog(context),
+                              child: const Text('Produce!'),
+                            ),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(30.0),
-                      primary: Colors.white,
-                      textStyle: const TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () => _showDialog(context),
-                    child: const Text('Produce!'),
-                  ),
-                ],
-              ),
-            ),
-          ])),
+                      ), //produceButton
+                    ]
+                );
+          }
+        )
+      ),
     );
   }
 }
