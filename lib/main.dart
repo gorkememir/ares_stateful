@@ -22,7 +22,9 @@ class _MyAppState extends State<MyApp> {
   RegRow titaniumRow = RegRow('titanium', 0xff949494);
   RegRow trRow = RegRow('crown', 0xffe3e1d7);
   bool prodSelected = false;
-  final player = AudioPlayer();
+  final moneyPlayer = AudioPlayer();
+  final paperPlayer = AudioPlayer();
+
 
   produce() async {
     if (prodSelected) {
@@ -30,23 +32,19 @@ class _MyAppState extends State<MyApp> {
         plantRow.increaseBy(plantRow.getIncome());
         heatRow.increaseBy(heatRow.getIncome());
         if (cardRow.getIndicator() > 0) {
-          await player.play(DeviceFileSource("assets/paper.mp3"));
-          await Future.delayed(const Duration(milliseconds: 1000));
+          paperPlayer.play(AssetSource('paper.mp3'));
+          await Future.delayed(const Duration(milliseconds: 1500));
         }
     } else {
       goldRow.increaseBy(goldRow.getIncome() + trRow.getIndicator());
       plantRow.increaseBy(plantRow.getIncome());
       heatRow.increaseBy(heatRow.getIncome());
       if (cardRow.getIndicator() > 0) {
-        await player.play(DeviceFileSource("assets/paper.mp3"));
-        await Future.delayed(const Duration(milliseconds: 1000));
+        paperPlayer.play(AssetSource('paper.mp3'));
+        await Future.delayed(const Duration(milliseconds: 1500));
       }
     }
-    playMoney();
-  }
-
-  playMoney() async {
-    player.play(DeviceFileSource("assets/money.mp3"));
+    moneyPlayer.play(AssetSource('money.mp3'));
   }
 
   _showDialog(BuildContext context) {
@@ -131,38 +129,26 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 // produce button starts
-                SizedBox(
+                Container(
                   width: double.infinity,
-                  height: parentHeight/10,
-                  child: ClipRRect(
+                  height: parentHeight/8,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Container(
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: <Color>[
-                                  Colors.greenAccent,
-                                  Colors.lightGreen,
-                                  Colors.green,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.all(5.0),
-                            primary: Colors.white,
-                          ),
-                          onPressed: () => _showDialog(context),
-                          child: AutoSizeText('Produce!', textScaleFactor: 2,),
-                        ),
+                    gradient: const LinearGradient(
+                      colors: <Color>[
+                        Colors.greenAccent,
+                        Colors.lightGreen,
+                        Colors.green,
                       ],
                     ),
+                  ),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(10.0),
+                      primary: Colors.white,
+                    ),
+                    onPressed: () => _showDialog(context),
+                    child: Text('Produce!', textScaleFactor: 2,),
                   ),
                 ),
               ]
