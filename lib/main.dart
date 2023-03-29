@@ -15,8 +15,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ResRow goldRow = ResRow('gold', 0xfff2e7c3, 30);
-  ResRow plantRow = ResRow('plant', 0xffe5f6df, 30);
   ResRow heatRow = ResRow('heat', 0xfff5deb3, 30);
+  ResRow plantRow = ResRow('plant', 0xffe5f6df, 30);
   RegRow cardRow = RegRow('card', 0xffadd8e6);
   RegRow steelRow = RegRow('steel', 0xffc4a484);
   RegRow titaniumRow = RegRow('titanium', 0xff949494);
@@ -101,6 +101,7 @@ class _MyAppState extends State<MyApp> {
       var parentHeight = constraints.maxHeight;
       var parentWidth = constraints.maxWidth;
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             toolbarHeight: 0,
@@ -110,8 +111,8 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 goldRow,
-                plantRow,
                 heatRow,
+                plantRow,
                 Expanded(
                   child: Row(
                     children: [
